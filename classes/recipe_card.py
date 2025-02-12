@@ -38,14 +38,22 @@ class RecipeCard:
 
         duration_tag = recipe_html.select_one(".recipe-duration p")
         duration_text = duration_tag.text.strip() if duration_tag else "0 min"
-        recipe_duration = int(re.search(r"\d+", duration_text).group()) if re.search(r"\d+", duration_text) else 0
+
+        match = re.search(r"(?:(\d+)h)?(?:(\d+)m?)?", duration_text)
+
+        if match:
+            hours = int(match.group(1)) if match.group(1) else 0
+            minutes = int(match.group(2)) if match.group(2) else 0
+            recipe_duration = hours * 60 + minutes
+        else:
+            recipe_duration = 0
 
         category_tag = recipe_html.select_one(".card__content_subtitle p")
         categories = set(category_tag.text.strip().split(" · ")) if category_tag else set()
 
         nutri_score_tag = recipe_html.select_one(".card__content_action .icon")
         nutri_score_class = nutri_score_tag["class"][1] if nutri_score_tag and len(nutri_score_tag["class"]) > 1 else "nutri-score-unknown"
-        nutri_score_value = nutri_score_class.split("-")[-1].upper()  # Extrait "A" de "nutri-score-A"
-        nutri_score = NutriScore(nutri_score_value) if nutri_score_value in ["A", "B", "C", "D", "E"] else NutriScore("UNKNOWN")
-        
+        nutri_score_value = nutri_score_class.split("-")[-1].upper()
+        nutri_score = NutriScore(nutri_score_value) if nutri_score_value in ["A", "B", "C", "D", "E"] else NutriScore("Unknown")
+
         return RecipeCard(recipe_duration, title, url, image_url, categories, nutri_score)

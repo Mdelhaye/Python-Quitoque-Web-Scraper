@@ -3,9 +3,10 @@ import re
 from classes import RecipeScraper
 
 def main():
-    recipes = RecipeScraper.get_recipes()
+    recipes = RecipeScraper.get_recipes_from_url("")
     for recipe in recipes:
         print(recipe)
+    print(len(recipes))
     
     print("Scraping ended.")
 

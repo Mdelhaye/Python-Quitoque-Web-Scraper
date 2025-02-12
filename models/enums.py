@@ -6,3 +6,4 @@ class NutriScore(Enum):
     C = 'C'
     D = 'D'
     E = 'E'
+    Unknown = 'Unknown'
