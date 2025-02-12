@@ -1,6 +1,12 @@
 import re
 
+from classes import RecipeScraper
+
 def main():
+    recipes = RecipeScraper.get_recipes()
+    for recipe in recipes:
+        print(recipe)
+    
     print("Scraping ended.")
 
 ## Script entry point
