@@ -27,25 +27,38 @@ class RecipeCard:
             f")"
         )
     
+    def __eq__(self, other):
+        if not isinstance(other, RecipeCard):
+            return False
+        return self.url == other.url
+
+    def __hash__(self):
+        return hash(self.url)
+
     @staticmethod
     def extract_page_number(url: str) -> int | None:
-        """Extrait le numéro de page d'une URL."""
-        if url == "https://www.quitoque.fr/#":
-            return None  # Aucune page
-        if url == "https://www.quitoque.fr/recettes":
-            return 1  # Page d'accueil des recettes
+        """Extracts the page number from a URL."""
 
-        # Vérifie s'il y a un numéro de page dans l'URL
+        if url in ("https://www.quitoque.fr/#", "https://www.quitoque.fr"):
+            return None
+        if url == "https://www.quitoque.fr/recettes":
+            return 1
+
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
-
+        
         if "page" in query_params:
             try:
                 return int(query_params["page"][0])
             except ValueError:
                 return None
-        
+
+        match = re.search(r"/page/(\d+)", parsed_url.path)
+        if match:
+            return int(match.group(1))
+
         return None
+
     
     @staticmethod
     def from_html(recipe_html: Tag):
