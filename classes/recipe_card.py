@@ -1,16 +1,18 @@
-from models import NutriScore
-from bs4    import Tag          ## To type the HTML entry
-
+from bs4            import Tag          ## To type the HTML entry
+from urllib.parse   import urlparse, parse_qs
 import re
 
+from models import NutriScore
+
 class RecipeCard:
-    def __init__(self, recipe_duration: int, title: str, url: str, image_url: str, categories: set[str], nutri_score: NutriScore) -> None:
+    def __init__(self, recipe_duration: int, title: str, url: str, image_url: str, categories: set[str], nutri_score: NutriScore, page_number: int = 0) -> None:
         self.recipe_duration = recipe_duration
         self.title = title
         self.url = url
         self.image_url = image_url
         self.categories = categories
         self.nutri_score = nutri_score
+        self.page_number = page_number
 
     def __repr__(self) -> str:
         return (
@@ -21,8 +23,29 @@ class RecipeCard:
             f"\tImage :\t\t{self.image_url},\n"
             f"\tCategories :\t{self.categories},\n"
             f"\tNutri Score :\t{self.nutri_score.value}\n"
+            f"\tPage :\t\t{self.page_number}\n"
             f")"
         )
+    
+    @staticmethod
+    def extract_page_number(url: str) -> int | None:
+        """Extrait le numéro de page d'une URL."""
+        if url == "https://www.quitoque.fr/#":
+            return None  # Aucune page
+        if url == "https://www.quitoque.fr/recettes":
+            return 1  # Page d'accueil des recettes
+
+        # Vérifie s'il y a un numéro de page dans l'URL
+        parsed_url = urlparse(url)
+        query_params = parse_qs(parsed_url.query)
+
+        if "page" in query_params:
+            try:
+                return int(query_params["page"][0])
+            except ValueError:
+                return None
+        
+        return None
     
     @staticmethod
     def from_html(recipe_html: Tag):

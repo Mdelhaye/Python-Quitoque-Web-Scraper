@@ -21,7 +21,9 @@ class RecipeScraper:
 
         recipes_set = set()
         for recipe_html in recipes_html:
-            recipes_set.add(RecipeCard.from_html(recipe_html))
+            recipe = RecipeCard.from_html(recipe_html)
+            recipe.page_number = RecipeCard.extract_page_number(url)
+            recipes_set.add(recipe)
 
         next_url = RecipeScraper.get_next_page(soup)
         if next_url != "":
