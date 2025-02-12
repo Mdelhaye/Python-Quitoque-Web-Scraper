@@ -35,6 +35,4 @@ class RecipeScraper:
     @staticmethod
     def get_next_page(current_page_html: Tag) -> str:
         next_page_tag = current_page_html.select_one(".pagination__item--next-page")
-        return next_page_tag["href"] if "href" in next_page_tag.attrs else "" 
-        
-        
+        return next_page_tag["href"] if next_page_tag and "href" in next_page_tag.attrs else ""
