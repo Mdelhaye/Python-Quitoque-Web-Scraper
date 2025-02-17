@@ -1,4 +1,4 @@
-from classes          import MainMenu
+from classes.main_menu import MainMenu
 
 def main():
     MainMenu.display_menu()
