@@ -1,25 +1,15 @@
-from sqlalchemy     import create_engine, Column, Integer, String, Enum, text
+from sqlalchemy     import create_engine, text
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from classes    import RecipeCard
-from models     import NutriScore
-from db.config  import DATABSE_CONFIG
+from classes.custom_objects.recipe_card import RecipeCard
+
+from db.config import DATABASE_CONFIG
+from db.recipe_card import RecipeCardDB
 
 Base = declarative_base()
 
-class RecipeCardDB(Base):
-    __tablename__     = "RecipeCards"
-    CardId            = Column(Integer, primary_key = True, autoincrement = True)
-    CardTitle         = Column(String(255), nullable = False)
-    RecipeURL         = Column(String(512), nullable = False, unique = True)
-    ImageURL          = Column(String(512))
-    RecipeDuration    = Column(Integer, nullable = False)
-    CardCategories    = Column(String(255)) 
-    RecipeNutriScore  = Column(Enum(NutriScore), nullable = False)
-    CardPageNumber    = Column(Integer, default = 0)
-
 class QuitoqueDatabase:
-    def __init__(self, host = DATABSE_CONFIG["host"], user = DATABSE_CONFIG["user"], password = DATABSE_CONFIG["password"], database = DATABSE_CONFIG["database"]) -> None:
+    def __init__(self, host = DATABASE_CONFIG["host"], user = DATABASE_CONFIG["user"], password = DATABASE_CONFIG["password"], database = DATABASE_CONFIG["database"]) -> None:
         self.engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}/{database}", echo = False)
         self.Session = sessionmaker(bind = self.engine)
         self.create_tables()

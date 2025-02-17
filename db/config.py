@@ -1,4 +1,4 @@
-DATABSE_CONFIG = {
+DATABASE_CONFIG = {
     "host": "localhost",
     "user": "root",
     "password": "password",

@@ -1,4 +1,4 @@
-from classes import RecipeScraper
+from classes.scraper.recipe_scraper     import RecipeScraper
 
 class MainMenu:
     menu_structure = {
@@ -46,7 +46,8 @@ class MainMenu:
                             case "Recipe Cards":
                                 print("📥 Start recipe card scraping...\n")
                                 RecipeScraper.main()
-                        # input("🔄 Press Enter to return to the menu…")
+                            case _:
+                                input("🔄 Press Enter to return to the menu…")
                 else:
                     print("⚠️ Invalid choice, please try again.")
             except ValueError:

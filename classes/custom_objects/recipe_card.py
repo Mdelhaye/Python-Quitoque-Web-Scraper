@@ -2,7 +2,7 @@ from bs4            import Tag          ## To type the HTML entry
 from urllib.parse   import urlparse, parse_qs
 import re
 
-from models import NutriScore
+from models.enums import NutriScore
 
 class RecipeCard:
     def __init__(self, recipe_duration: int, title: str, url: str, image_url: str, categories: set[str], nutri_score: NutriScore, page_number: int = 0) -> None:

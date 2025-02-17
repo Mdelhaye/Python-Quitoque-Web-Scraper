@@ -2,7 +2,7 @@ import requests
 from bs4    import BeautifulSoup
 from bs4    import Tag              ## To type the HTML entry
 
-from classes import RecipeCard
+from classes.custom_objects.recipe_card import RecipeCard
 from classes.database import QuitoqueDatabase
 
 class RecipeScraper:
