@@ -1,6 +1,5 @@
-from sqlalchemy     import create_engine, Column, Integer, String, Enum, Table, text
+from sqlalchemy     import create_engine, Column, Integer, String, Enum, text
 from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.exc import IntegrityError
 
 from classes    import RecipeCard
 from models     import NutriScore
@@ -9,7 +8,7 @@ from db.config  import DATABSE_CONFIG
 Base = declarative_base()
 
 class RecipeCardDB(Base):
-    __tablename__     = "recipe_cards"
+    __tablename__     = "RecipeCards"
     CardId            = Column(Integer, primary_key = True, autoincrement = True)
     CardTitle         = Column(String(255), nullable = False)
     RecipeURL         = Column(String(512), nullable = False, unique = True)
@@ -39,7 +38,7 @@ class QuitoqueDatabase:
             session = self.db.Session()
             try:
                 query = """
-                    INSERT INTO recipe_cards (CardTitle, RecipeURL, ImageURL, RecipeDuration, CardCategories, RecipeNutriScore, CardPageNumber)
+                    INSERT INTO RecipeCards (CardTitle, RecipeURL, ImageURL, RecipeDuration, CardCategories, RecipeNutriScore, CardPageNumber)
                     VALUES (:CardTitle, :RecipeURL, :ImageURL, :RecipeDuration, :CardCategories, :RecipeNutriScore, :CardPageNumber)
                     ON DUPLICATE KEY UPDATE 
                         CardTitle = VALUES(CardTitle),
