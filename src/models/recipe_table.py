@@ -29,3 +29,4 @@ class Recipe(Base):
     modifiedAt  = Column(TIMESTAMP, server_default = func.current_timestamp(), server_onupdate = func.current_timestamp(), nullable = True)
 
     reviews = relationship("RecipeReview", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
+    categories = relationship("RecipeHasCategory", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
