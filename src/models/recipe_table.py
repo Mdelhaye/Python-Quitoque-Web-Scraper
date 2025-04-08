@@ -1,4 +1,5 @@
 from sqlalchemy import Column, SmallInteger, Integer, String, Enum, TIMESTAMP, func
+from sqlalchemy.orm import relationship
 from .base import Base
 
 from enum import Enum as PyEnum
@@ -26,3 +27,5 @@ class Recipe(Base):
     nutriscore  = Column(Enum('A', 'B', 'C', 'D', 'E', 'Unknow'), nullable = False)
     createdAt   = Column(TIMESTAMP, server_default = func.current_timestamp(), nullable = True)
     modifiedAt  = Column(TIMESTAMP, server_default = func.current_timestamp(), server_onupdate = func.current_timestamp(), nullable = True)
+
+    reviews = relationship("RecipeReview", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
