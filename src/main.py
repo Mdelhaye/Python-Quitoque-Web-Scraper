@@ -10,6 +10,9 @@ from models.category_table import Category
 from models.recipe_has_category_table import RecipeHasCategory
 from models.equipment_table import Equipment
 from models.recipe_has_equipment_table import RecipeHasEquipment
+from models.unit_of_measure_table import UnitOfMeasure
+from models.ingredient_table import Ingredient
+from models.recipe_has_ingredient_table import RecipeHasIngredient
 
 from services.recipe_service import RecipeService
 from services.recipe_review_service import RecipeReviewService
@@ -17,6 +20,9 @@ from services.category_service import CategoryService
 from services.recipe_has_category_service import RecipeHasCategoryService
 from services.equipment_service import EquipmentService
 from services.recipe_has_equipment_service import RecipeHasEquipmentService
+from services.unit_of_measure_service import UnitOfMeasureService
+from services.ingredient_service import IngredientService
+from services.recipe_has_ingredient_service import RecipeHasIngredientService
 
 from database.connection import Session
 
@@ -170,6 +176,83 @@ def main():
         session.execute(sql, params)
         session.commit()
         print("Relations recette-équipement insérées avec succès dans la base de données.")
+
+    unit_of_measures = [
+        UnitOfMeasure(
+            unitOfMeasureSymbol = "g"
+        ),
+        UnitOfMeasure(
+            unitOfMeasureSymbol = "ml"
+        )
+    ]
+
+    # Générer la requête d'insertion pour plusieurs objets
+    sql, params = UnitOfMeasureService.to_sql_insert_multiple_secure(unit_of_measures)
+    print(f"Requête SQL générée : {sql}")
+    print(f"Paramètres : {params}")
+
+    with Session() as session:
+        # Exécute la requête SQL d'insertion
+        session.execute(sql, params)
+        session.commit()
+        print("Unités de mesure insérées avec succès dans la base de données.")
+
+    ingredients = [
+        Ingredient(
+            ingredientName = "Poulet",
+            fk_UnitOfMeasureId = 1
+        ),
+        Ingredient(
+            ingredientName = "Eau",
+            fk_UnitOfMeasureId = 2
+        ), 
+        Ingredient(
+            ingredientName = "Pomme",
+            fk_UnitOfMeasureId = 1
+        )
+    ]
+
+    # Générer la requête d'insertion pour plusieurs objets
+    sql, params = IngredientService.to_sql_insert_multiple_secure(ingredients)
+    print(f"Requête SQL générée : {sql}")
+    print(f"Paramètres : {params}")
+
+    with Session() as session:
+        # Exécute la requête SQL d'insertion
+        session.execute(sql, params)
+        session.commit()
+        print("Ingrédients insérés avec succès dans la base de données.")
+
+    recipe_has_ingredients = [
+        RecipeHasIngredient(
+            fk_RecipeId = 1,
+            fk_IngredientId = 1,
+            quantity = 200
+        ),
+        RecipeHasIngredient(
+            fk_RecipeId = 2,
+            fk_IngredientId = 2,
+            quantity = 100
+        ),
+        RecipeHasIngredient(
+            fk_RecipeId = 1,
+            fk_IngredientId = 3,
+            quantity = 150
+        )
+    ]
+
+    # Générer la requête d'insertion pour plusieurs objets
+    sql, params = RecipeHasIngredientService.to_sql_insert_multiple_secure(recipe_has_ingredients)
+    print(f"Requête SQL générée : {sql}")
+    print(f"Paramètres : {params}")
+
+    with Session() as session:
+        # Exécute la requête SQL d'insertion
+        session.execute(sql, params)
+        session.commit()
+        print("Relations recette-ingrédient insérées avec succès dans la base de données.")
+
+    
 
 if __name__ == "__main__":
     main()

@@ -31,3 +31,4 @@ class Recipe(Base):
     reviews     = relationship("RecipeReview", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
     categories  = relationship("RecipeHasCategory", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
     equipments  = relationship("RecipeHasEquipment", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
+    ingredients = relationship("RecipeHasIngredient", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
