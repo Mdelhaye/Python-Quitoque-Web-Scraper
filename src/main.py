@@ -8,11 +8,15 @@ from models.recipe_table import NutriscoreEnum, Recipe
 from models.recipe_review_table import RecipeReview
 from models.category_table import Category
 from models.recipe_has_category_table import RecipeHasCategory
+from models.equipment_table import Equipment
+from models.recipe_has_equipment_table import RecipeHasEquipment
 
 from services.recipe_service import RecipeService
 from services.recipe_review_service import RecipeReviewService
 from services.category_service import CategoryService
 from services.recipe_has_category_service import RecipeHasCategoryService
+from services.equipment_service import EquipmentService
+from services.recipe_has_equipment_service import RecipeHasEquipmentService
 
 from database.connection import Session
 
@@ -120,6 +124,52 @@ def main():
         session.execute(sql, params)
         session.commit()
         print("Relations recette-catégorie insérées avec succès dans la base de données.")
+
+    equipments = [
+        Equipment(
+            equipmentName = "Four"
+        ),
+        Equipment(
+            equipmentName = "Mixeur"
+        )
+    ]
+
+    # Générer la requête d'insertion pour plusieurs objets
+    sql, params = EquipmentService.to_sql_insert_multiple_secure(equipments)
+    print(f"Requête SQL générée : {sql}")
+    print(f"Paramètres : {params}")
+
+    with Session() as session:
+        # Exécute la requête SQL d'insertion
+        session.execute(sql, params)
+        session.commit()
+        print("Equipements insérés avec succès dans la base de données.")
+
+    recipe_has_equipments = [
+        RecipeHasEquipment(
+            fk_RecipeId = 1,
+            fk_EquipmentId = 1
+        ),
+        RecipeHasEquipment(
+            fk_RecipeId = 2,
+            fk_EquipmentId = 2
+        ),
+        RecipeHasEquipment(
+            fk_RecipeId = 1,
+            fk_EquipmentId = 2
+        )
+    ]
+
+    # Générer la requête d'insertion pour plusieurs objets
+    sql, params = RecipeHasEquipmentService.to_sql_insert_multiple_secure(recipe_has_equipments)
+    print(f"Requête SQL générée : {sql}")
+    print(f"Paramètres : {params}")
+
+    with Session() as session:
+        # Exécute la requête SQL d'insertion
+        session.execute(sql, params)
+        session.commit()
+        print("Relations recette-équipement insérées avec succès dans la base de données.")
 
 if __name__ == "__main__":
     main()

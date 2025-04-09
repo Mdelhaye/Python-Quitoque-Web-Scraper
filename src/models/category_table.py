@@ -7,6 +7,6 @@ class Category(Base):
 
     # Attributs de la classe (champ de la table)
     categoryId      = Column(Integer, primary_key = True, autoincrement = True)
-    categoryName    = Column(String(255), unique = True, nullable = False)
+    categoryName    = Column(String(45), unique = True, nullable = False)
 
     recipes = relationship("RecipeHasCategory", back_populates = "category", cascade = "all, delete-orphan", uselist = True)
