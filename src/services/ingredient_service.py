@@ -1,19 +1,19 @@
 from src.models.ingredient_table import Ingredient
-from src.utils.sql_helpers import generate_insert_query, generate_insert_multiple_secure_query
+from .base_service import BaseService
 
-class IngredientService:
-    @staticmethod
-    def to_sql_insert(ingredient: Ingredient) -> str:
+class IngredientService(BaseService):
+    @classmethod
+    def to_sql_insert(cls, ingredient: Ingredient) -> str:
         """
         Génère la requête SQL d'insertion pour un seul objet Ingredient.
         """
-        sql, params = generate_insert_query(ingredient)
+        sql, params = super().to_sql_insert(ingredient)
         return sql, params
     
-    @staticmethod
-    def to_sql_insert_multiple_secure(ingredients: list) -> str:
+    @classmethod
+    def to_sql_insert_multiple_secure(cls, ingredients: list) -> str:
         """
         Génère la requête SQL d'insertion pour plusieurs objets Ingredient.
         """
-        query = generate_insert_multiple_secure_query(ingredients)
-        return query
+        sql, params = super().to_sql_insert_multiple_secure(ingredients)
+        return sql, params

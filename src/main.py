@@ -44,9 +44,6 @@ def main():
         session.commit()
         print("Recettes insérées avec succès dans la base de données.")
 
-if __name__ == "__main__":
-    main()
-
 # def main():
     # recipes = [
     #     Recipe(
@@ -272,3 +269,6 @@ if __name__ == "__main__":
         # session.execute(sql, params)
         # session.commit()
         # print("Relations recette-ingrédient insérées avec succès dans la base de données.")
+        
+if __name__ == "__main__":
+    main()

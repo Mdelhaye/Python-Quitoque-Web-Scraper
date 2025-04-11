@@ -1,19 +1,19 @@
 from src.models.recipe_has_category_table import RecipeHasCategory
-from src.utils.sql_helpers import generate_insert_query, generate_insert_multiple_secure_query
+from .base_service import BaseService
 
-class RecipeHasCategoryService:
-    @staticmethod
-    def to_sql_insert(recipe_has_category: RecipeHasCategory) -> str:
+class RecipeHasCategoryService(BaseService):
+    @classmethod
+    def to_sql_insert(cls, recipe_has_category: RecipeHasCategory) -> str:
         """
         Génère la requête SQL d'insertion pour un seul objet RecipeHasCategory.
         """
-        sql, params = generate_insert_query(recipe_has_category)
+        sql, params = super().to_sql_insert(recipe_has_category)
         return sql, params
     
-    @staticmethod
-    def to_sql_insert_multiple_secure(recipe_has_categories: list) -> str:
+    @classmethod
+    def to_sql_insert_multiple_secure(cls, recipe_has_categories: list) -> str:
         """
         Génère la requête SQL d'insertion pour plusieurs objets RecipeHasCategory.
         """
-        query = generate_insert_multiple_secure_query(recipe_has_categories)
-        return query
+        sql, params = super().to_sql_insert_multiple_secure(recipe_has_categories)
+        return sql, params

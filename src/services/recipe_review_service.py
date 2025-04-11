@@ -1,19 +1,19 @@
 from src.models.recipe_review_table import RecipeReview
-from src.utils.sql_helpers import generate_insert_query, generate_insert_multiple_secure_query
+from .base_service import BaseService
 
-class RecipeReviewService:
-    @staticmethod
-    def to_sql_insert(recipe_review: RecipeReview) -> str:
+class RecipeReviewService(BaseService):
+    @classmethod
+    def to_sql_insert(cls, recipe_review: RecipeReview) -> str:
         """
         Génère la requête SQL d'insertion pour un seul objet RecipeReview.
         """
-        sql, params = generate_insert_query(recipe_review)
+        sql, params = super().to_sql_insert(recipe_review)
         return sql, params
     
-    @staticmethod
-    def to_sql_insert_multiple_secure(recipe_reviews: list) -> str:
+    @classmethod
+    def to_sql_insert_multiple_secure(cls, recipe_reviews: list) -> str:
         """
         Génère la requête SQL d'insertion pour un seul objet RecipeReview.
         """
-        query = generate_insert_multiple_secure_query(recipe_reviews)
-        return query
+        sql, params = super().to_sql_insert_multiple_secure(recipe_reviews)
+        return sql, params

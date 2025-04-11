@@ -1,19 +1,19 @@
 from src.models.recipe_table import Recipe
-from src.utils.sql_helpers import generate_insert_query, generate_insert_multiple_secure_query
+from .base_service import BaseService
 
-class RecipeService:
-    @staticmethod
-    def to_sql_insert(recipe: Recipe) -> str:
+class RecipeService(BaseService):
+    @classmethod
+    def to_sql_insert(cls, recipe: Recipe) -> str:
         """
         Génère la requête SQL d'insertion pour un seul objet Recipe.
         """
-        sql, params = generate_insert_query(recipe)
+        sql, params = super().to_sql_insert(recipe)
         return sql, params
     
-    @staticmethod
-    def to_sql_insert_multiple_secure(recipes: list) -> str:
+    @classmethod
+    def to_sql_insert_multiple_secure(cls, recipes: list) -> str:
         """
         Génère la requête SQL d'insertion pour un seul objet Recipe.
         """
-        query = generate_insert_multiple_secure_query(recipes)
-        return query
+        sql, params = super().to_sql_insert_multiple_secure(recipes)
+        return sql, params
