@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, TIMESTAMP, ForeignKey, Boolean, func
 from sqlalchemy.orm import relationship
 from .base import Base
-from .recipe_table import Recipe
 
 class RecipeReview(Base):
     __tablename__ = 'RecipeReviewTable'

@@ -2,6 +2,11 @@ from sqlalchemy import Column, SmallInteger, Integer, String, Enum, TIMESTAMP, f
 from sqlalchemy.orm import relationship
 from .base import Base
 
+from .recipe_review_table import RecipeReview
+from .recipe_has_category_table import RecipeHasCategory
+from .recipe_has_equipment_table import RecipeHasEquipment
+from .recipe_has_ingredient_table import RecipeHasIngredient
+
 from enum import Enum as PyEnum
 
 # Enum pour le Nutriscore
