@@ -4,9 +4,10 @@ from .base_scraper import BaseScraper
 from models.recipe_table import Recipe, NutriscoreEnum
 
 class RecipeScraper(BaseScraper):
-    def __init__(self, base_url: str) -> None:
+    def __init__(self, base_url: str, endpoint: str = None, soup: BeautifulSoup = None) -> None:
         super().__init__(base_url)
-        self.endpoint = None
+        self.endpoint = endpoint
+        self.soup     = soup
 
     def make_request(self, endpoint: str) -> str:
         if not endpoint:
@@ -16,7 +17,7 @@ class RecipeScraper(BaseScraper):
         self.soup = self.parse_html(
                 super().make_request(self.endpoint)
             ).select_one('#product-show')
-        return self.soup if self.soup else None
+        return self if self else None
 
     def parse_recipe(self) -> Recipe:
         self.check_soup()
@@ -27,9 +28,9 @@ class RecipeScraper(BaseScraper):
 
         title      = self.clean_data(self.soup.select_one('#sylius-product-name').text)
         subtitle   = self.clean_data(self.soup.select_one('div:nth-of-type(2) > div:nth-of-type(3)').text)
-        url        = f"{self.base_url}/{self.endpoint}"
-        totalTime  = times["Total"]
-        cookTime   = times["En cuisine"]
+        url        = f"{self.base_url}{self.endpoint}"
+        totalTime  = times["Total"] if "Total" in times.keys() else 0
+        cookTime   = times["En cuisine"] if "En cuisine" in times.keys() else 0
         nutriscore = getattr(NutriscoreEnum,
                             self.soup.select_one('span[class*="nutri-score"]')["class"][-1].split('-')[-1].upper(),
                             "Unknown")

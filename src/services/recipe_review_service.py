@@ -5,15 +5,27 @@ class RecipeReviewService(BaseService):
     @classmethod
     def to_sql_insert(cls, recipe_review: RecipeReview) -> str:
         """
-        Génère la requête SQL d'insertion pour un seul objet RecipeReview.
+        Generates the SQL insert query for a single object RecipeReview.
         """
-        sql, params = super().to_sql_insert(recipe_review)
-        return sql, params
+        return super().run_query(super().to_sql_insert(RecipeReview.__table__, recipe_review))
     
     @classmethod
-    def to_sql_insert_multiple_secure(cls, recipe_reviews: list) -> str:
+    def to_sql_insert_multiple(cls, recipe_reviews: list) -> str:
         """
-        Génère la requête SQL d'insertion pour un seul objet RecipeReview.
+        Generates the SQL insert query for multiple objects RecipeReview.
         """
-        sql, params = super().to_sql_insert_multiple_secure(recipe_reviews)
-        return sql, params
+        return super().run_query(super().to_sql_insert_multiple(RecipeReview.__table__, recipe_reviews))
+    
+    @classmethod
+    def to_sql_select(cls, recipe_review: RecipeReview) -> str:
+        """
+        Generates the SQL select query for a single object RecipeReview.
+        """
+        return super().run_query(super().to_sql_select(RecipeReview.__table__, recipe_review))
+    
+    @classmethod
+    def to_sql_select_multiple(cls, recipe_reviews: list) -> str:
+        """
+        Generates the SQL select query for multiple objects RecipeReview.
+        """
+        return super().run_query(super().to_sql_select_multiple(RecipeReview.__table__, recipe_reviews))

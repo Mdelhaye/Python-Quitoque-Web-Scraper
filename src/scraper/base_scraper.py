@@ -7,8 +7,13 @@ class BaseScraper:
         self.base_url = base_url
         self.soup = None
 
-    def make_request(self, endpoint: str) -> str:
-        url = f"{self.base_url}/{endpoint}"
+    def make_request(self, endpoint: str = None) -> str:
+        if endpoint and not endpoint.startswith("/") and not self.base_url.endswith("/"):
+            endpoint = "/" + endpoint
+        if endpoint and endpoint.endswith("/"):
+            endpoint = endpoint[:-1]
+
+        url = f"{self.base_url}{endpoint}" if endpoint else self.base_url
         response = requests.get(url)
         if response.status_code == 200:
             return response.text

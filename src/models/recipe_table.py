@@ -29,7 +29,7 @@ class Recipe(Base):
     url         = Column(String(255), unique = True, nullable = False)
     totalTime   = Column(SmallInteger())
     cookTime    = Column(SmallInteger())
-    nutriscore  = Column(Enum('A', 'B', 'C', 'D', 'E', 'Unknow'), nullable = False)
+    nutriscore  = Column(Enum(NutriscoreEnum), nullable = False)
     createdAt   = Column(TIMESTAMP, server_default = func.current_timestamp(), nullable = True)
     modifiedAt  = Column(TIMESTAMP, server_default = func.current_timestamp(), server_onupdate = func.current_timestamp(), nullable = True)
 

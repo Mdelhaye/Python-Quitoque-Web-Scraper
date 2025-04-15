@@ -7,13 +7,25 @@ class RecipeHasEquipmentService(BaseService):
         """
         Génère la requête SQL d'insertion pour un seul objet RecipeHasEquipment.
         """
-        sql, params = super().to_sql_insert(recipe_has_equipment)
-        return sql, params
+        return super().run_query(super().to_sql_insert(RecipeHasEquipment.__table__, recipe_has_equipment))
     
     @classmethod
-    def to_sql_insert_multiple_secure(cls, recipe_has_equipments: list) -> str:
+    def to_sql_insert_multiple(cls, recipe_has_equipments: list) -> str:
         """
         Génère la requête SQL d'insertion pour plusieurs objets RecipeHasEquipment.
         """
-        sql, params = super().to_sql_insert_multiple_secure(recipe_has_equipments)
-        return sql, params
+        return super().run_query(super().to_sql_insert_multiple(RecipeHasEquipment.__table__, recipe_has_equipments))
+    
+    @classmethod
+    def to_sql_select(cls, recipe_has_equipment: RecipeHasEquipment) -> str:
+        """
+        Génère la requête SQL de sélection pour un seul objet RecipeHasEquipment.
+        """
+        return super().run_query(super().to_sql_select(RecipeHasEquipment.__table__, recipe_has_equipment))
+    
+    @classmethod
+    def to_sql_select_multiple(cls, recipe_has_equipments: list) -> str:
+        """
+        Génère la requête SQL de sélection pour plusieurs objets RecipeHasEquipment.
+        """
+        return super().run_query(super().to_sql_select(RecipeHasEquipment.__table__, recipe_has_equipments))
