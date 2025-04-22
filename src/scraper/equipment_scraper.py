@@ -1,10 +1,10 @@
 from scraper.recipe_scraper import RecipeScraper
-from models.category_table import Category
+from models.equipment_table import Equipment
 
-class CategoryScraper(RecipeScraper):
+class EquipmentScraper(RecipeScraper):
     def __init__(self, recipe_scraper: RecipeScraper):
         """
-        Initialise CategoryScraper en réutilisant l'instance de RecipeScraper.
+        Initialise EquipmentScraper en réutilisant l'instance de RecipeScraper.
         """
         if not recipe_scraper.base_url:
             raise ValueError("RecipeScraper n'est pas encore initialisé avec une URL de base.")
@@ -14,9 +14,9 @@ class CategoryScraper(RecipeScraper):
         
         super().__init__(recipe_scraper.base_url, recipe_scraper.endpoint, recipe_scraper.soup)
 
-    def parse_categories(self):
+    def parse_equipments(self):
         """
-        Parse les catégories à partir de l'HTML.
+        Parse les équipements à partir de l'HTML.
         """
-        categories = self.soup.select("#product-tags > span")
-        return [Category(categoryName = super().clean_data(category.get_text()).lower()) for category in categories]
+        equipments = self.soup.select("div#equipment > ul > li")
+        return [Equipment(equipmentName = super().clean_data(equipment.get_text()).lower()) for equipment in equipments]

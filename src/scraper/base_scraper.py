@@ -29,7 +29,7 @@ class BaseScraper:
 
     def clean_data(self, data):
         return data.strip() if isinstance(data, str) else data  # Example cleaning method
-
+        
     def clean_data_number(self, data: str) -> int:
         match = re.search(r"(?:(\d+)h)?(?:(\d+)m?)?", data)
 

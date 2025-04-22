@@ -13,3 +13,14 @@ class RecipeHasCategory(Base):
 
     recipe = relationship("Recipe", back_populates = "categories", uselist = True)
     category = relationship("Category", back_populates = "recipes", uselist = True)
+
+    def __eq__(self, other):
+        if not isinstance(other, RecipeHasCategory):
+            return False
+        return self.fk_RecipeId == other.fk_RecipeId and self.fk_CategoryId == other.fk_CategoryId
+    
+    def __hash__(self):
+        return hash((self.fk_RecipeId, self.fk_CategoryId))
+    
+    def __str__(self):
+        return f"RecipeHasCategory(fk_RecipeId={self.fk_RecipeId}, fk_CategoryId={self.fk_CategoryId})"

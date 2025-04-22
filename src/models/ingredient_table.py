@@ -17,3 +17,14 @@ class Ingredient(Base):
 
     recipes = relationship("RecipeHasIngredient", back_populates = "ingredient", cascade = "all, delete-orphan", uselist = True)
     unitOfMeasure = relationship("UnitOfMeasure", back_populates = "ingredients", uselist = False)
+
+    def __eq__(self, other):
+        if not isinstance(other, Ingredient):
+            return False
+        return self.ingredientId == other.ingredientId and self.ingredientName == other.ingredientName and self.fk_UnitOfMeasureId == other.fk_UnitOfMeasureId
+    
+    def __hash__(self):
+        return hash((self.ingredientId, self.ingredientName, self.fk_UnitOfMeasureId))
+    
+    def __str__(self):
+        return f"Ingredient(ingredientId={self.ingredientId}, ingredientName='{self.ingredientName}', fk_UnitOfMeasureId={self.fk_UnitOfMeasureId})"

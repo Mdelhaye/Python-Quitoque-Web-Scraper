@@ -12,3 +12,6 @@ class RecipeReview(Base):
     LastCookedDate  = Column(TIMESTAMP, server_default = func.current_timestamp(), server_onupdate = func.current_timestamp(), nullable = True)
 
     recipe = relationship("Recipe", back_populates = "reviews", uselist = False)
+
+    def __str__(self):
+        return f"RecipeReview(fk_RecipeId={self.fk_RecipeId}, IsVerified={self.IsVerified}, TimesCooked={self.TimesCooked}, Comments={self.Comments}, LastCookedDate={self.LastCookedDate})"

@@ -37,3 +37,14 @@ class Recipe(Base):
     categories  = relationship("RecipeHasCategory", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
     equipments  = relationship("RecipeHasEquipment", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
     ingredients = relationship("RecipeHasIngredient", back_populates = "recipe", cascade = "all, delete-orphan", uselist = True)
+
+    def __eq__(self, other):
+        if not isinstance(other, Recipe):
+            return False
+        return self.recipeId == other.recipeId and self.title == other.title and self.url == other.url
+    
+    def __hash__(self):
+        return hash((self.recipeId, self.title, self.url))
+    
+    def __str__(self):
+        return f"Recipe(recipeId={self.recipeId}, title='{self.title}', url='{self.url}', totalTime={self.totalTime}, cookTime={self.cookTime}, nutriscore='{self.nutriscore}')"

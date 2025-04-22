@@ -26,8 +26,8 @@ class RecipeScraper(BaseScraper):
                         [self.clean_data(key.text) for key in self.soup.select('div:nth-of-type(2) > div:nth-of-type(5) > div > div > p:nth-child(2n)')]]
         times = dict(zip(key, value))
 
-        title      = self.clean_data(self.soup.select_one('#sylius-product-name').text)
-        subtitle   = self.clean_data(self.soup.select_one('div:nth-of-type(2) > div:nth-of-type(3)').text)
+        title      = self.clean_data(self.soup.select_one('#sylius-product-name').text).capitalize()
+        subtitle   = self.clean_data(self.soup.select_one('div:nth-of-type(2) > div:nth-of-type(3)').text).capitalize()
         url        = f"{self.base_url}{self.endpoint}"
         totalTime  = times["Total"] if "Total" in times.keys() else 0
         cookTime   = times["En cuisine"] if "En cuisine" in times.keys() else 0
